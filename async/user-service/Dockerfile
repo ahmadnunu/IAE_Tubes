@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql zip bcmath
+    && docker-php-ext-install pdo pdo_mysql zip bcmath \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer untuk dependency management
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -23,7 +24,7 @@ WORKDIR /var/www
 COPY . .
 
 # Install dependency Laravel menggunakan Composer
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Ubah permission file agar dapat diakses oleh user www-data
 RUN chown -R www-data:www-data /var/www

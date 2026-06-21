@@ -12,7 +12,7 @@ type User {
 
 type Query {
   users: [User!]! @all
-  user(id: ID!): User @first
+  user(id: ID! @eq): User @find
 }
 
 type Mutation {

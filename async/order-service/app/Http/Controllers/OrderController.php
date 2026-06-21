@@ -197,7 +197,7 @@ class OrderController extends Controller
         ]);
 
 
-        OrderCreated::dispatch($order->id, $totalPrice);
+        OrderCreated::dispatch($order);
 
         return response()->json([
             'order_id' => $order->id,
@@ -258,7 +258,7 @@ class OrderController extends Controller
     private function validateUser($userId)
     {
         // Mengakses user-service melalui nama service di Docker Compose
-        $response = Http::get("http://user-service:8001/api/users/{$userId}");
+        $response = Http::get("http://user-service:8000/api/users/{$userId}");
         return $response->successful() ? $response->json() : null;
     }
 
@@ -266,7 +266,7 @@ class OrderController extends Controller
     private function validateProduct($productId)
     {
 
-        $response = Http::get("http://product-service:8002/api/products/{$productId}");
+        $response = Http::get("http://product-service:8000/api/products/{$productId}");
         return $response->successful() ? $response->json() : null;
     }
 }

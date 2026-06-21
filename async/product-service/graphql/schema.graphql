@@ -14,7 +14,7 @@ type Product {
 
 type Query {
   products: [Product!]! @all
-  product(id: ID!): Product @first
+  product(id: ID! @eq): Product @find
 }
 
 type Mutation {

@@ -28,20 +28,20 @@ class PaymentController extends Controller
 
         try {
             
-            $orderResp = Http::get("http://order-service:8003/api/orders/{$validated['order_id']}");
+            $orderResp = Http::get("http://order-service:8000/api/orders/{$validated['order_id']}");
             if ($orderResp->failed()) {
                 return response()->json(['message' => 'Order not found'], 404);
             }
             $orderData = $orderResp->json();
 
             
-            $userResp = Http::get("http://user-service:8001/api/users/{$validated['user_id']}");
+            $userResp = Http::get("http://user-service:8000/api/users/{$validated['user_id']}");
             if ($userResp->failed()) {
                 return response()->json(['message' => 'User not found'], 404);
             }
 
           
-            $prodResp = Http::get("http://product-service:8002/api/products/{$orderData['product_id']}");
+            $prodResp = Http::get("http://product-service:8000/api/products/{$orderData['product_id']}");
             if ($prodResp->failed()) {
                 return response()->json(['message' => 'Product not found'], 404);
             }
@@ -58,7 +58,7 @@ class PaymentController extends Controller
             }
 
            
-            $updProd = Http::put("http://product-service:8002/api/products/{$orderData['product_id']}", [
+            $updProd = Http::put("http://product-service:8000/api/products/{$orderData['product_id']}", [
                 'stock' => $newStock,
             ]);
             if ($updProd->failed()) {
@@ -76,7 +76,7 @@ class PaymentController extends Controller
             ]);
 
            
-            $updOrder = Http::put("http://order-service:8003/api/orders/{$validated['order_id']}", [
+            $updOrder = Http::put("http://order-service:8000/api/orders/{$validated['order_id']}", [
                 'status' => 'paid',
             ]);
             if ($updOrder->failed()) {
